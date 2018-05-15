@@ -1,0 +1,31 @@
+
+<form (ngSubmit)="onFormSubmit(loginForm)" #loginForm="ngForm">
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input  type="text"
+            class="form-control"
+            [(ngModel)]="credentials.email"
+            name="email"
+            required
+            email
+            #email="ngModel">
+    <span class="help-block" *ngIf="!email.valid && email.touched">Please enter your email-adress!</span>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input  type="password"
+            class="form-control"
+            [(ngModel)]="credentials.password"
+            name="password"
+            required
+            #password="ngModel">
+    <span class="help-block" *ngIf="!password.valid && password.touched">Please enter your password!</span>
+  </div>
+
+  <button   type="submit"
+            name="button"
+            [disabled]="!loginForm.valid">Login</button>
+
+</form>

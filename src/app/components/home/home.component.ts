@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from '../models/user';
-import { UserService } from '../services/user.service';
+import { User } from '../../models/user';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -11,12 +11,14 @@ import { UserService } from '../services/user.service';
 export class HomeComponent implements OnInit {
 
   user: User = new User;
+  greeting: string;
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.user.name = "János"
     this.getUser();
+    this.greeting = this.user.greet();
   }
 
   getUser(): void {
