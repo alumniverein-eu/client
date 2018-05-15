@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Credentials } from './credentials';
@@ -14,7 +15,7 @@ export class AuthService {
   private baseUrl = 'http://127.0.0.1:8000/api';
   private helper = new JwtHelperService();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   public getToken(): string {
     return localStorage.getItem('access_token');
@@ -51,6 +52,7 @@ export class AuthService {
         tap( result => {
           // delete credentials from localStorage
           localStorage.removeItem('access_token');
+          
         }),
         //map( result => 'blacklisted: ' + oldToken ),
         map( result => 'Logged out!' ),

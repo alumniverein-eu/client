@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+import { HttpRequestService } from './http/http-request.service';
 
 import { User } from '../models/user';
 
@@ -8,12 +9,16 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class UserService {
-  private usersUrl = 'http://127.0.0.1:8000/api/user/1';
+  private userEndpoint = '/user';
 
-  constructor(private http: HttpClient) {}
+  constructor(private httpRequestService: HttpRequestService) {}
+
+  getUsers(): Observable<User[]> {
+    return this.httpRequestService.get<User[]>(this.userEndpoint);
+  }
 
   /** GET user from the server */
-  getUser(): Observable<User> {
-    return this.http.get<User>(this.usersUrl);
+  getUser(id: number = 1): Observable<User> {
+    return this.httpRequestService.get<User>(this.userEndpoint+`/${id}`);
   }
 }

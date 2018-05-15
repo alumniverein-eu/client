@@ -11,6 +11,7 @@ import { UserService } from '../../services/user.service';
 export class HomeComponent implements OnInit {
 
   user: User = new User;
+  userList: User[];
   greeting: string;
 
   constructor(private userService: UserService) { }
@@ -24,5 +25,7 @@ export class HomeComponent implements OnInit {
   getUser(): void {
     this.userService.getUser()
     .subscribe(user => this.user = user);
+    this.userService.getUsers()
+    .subscribe(users => this.userList = users.data);
   }
 }
