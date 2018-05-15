@@ -10,6 +10,7 @@ import { Credentials } from '../../../services/auth/credentials';
 export class LoginComponent implements OnInit {
 
   credentials = new Credentials();
+  loggedin: boolean = false;
 
   constructor(private authService: AuthService) { }
 
@@ -18,10 +19,16 @@ export class LoginComponent implements OnInit {
     this.credentials.password = 'secret';
   }
 
-  onFormSubmit(form: ngForm): void {
-    console.log(form);
-    this.authService.attemptLogin(this.credentials)
-    .subscribe(response => console.log(response));
+  onFormSubmit(): void {
+    this.authService.attemptLogin(this.credentials).subscribe(
+      response => console.log(response)
+    );
+  }
+
+  onLogoutUser(): void {
+    this.authService.logout().subscribe(
+      response => console.log(response)
+    );
   }
 
 }

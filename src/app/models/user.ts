@@ -3,7 +3,7 @@ export class User {
     name: String;
     email: String;
 
-    public greet(): void{
+    public greet(): string{
       return 'Hey!';
     }
 }
