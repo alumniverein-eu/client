@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
 import { User } from '@models/user/user.model';
+import { Membership } from '@models/membership/membership.model';
 import { AuthService } from '@helpers/services/auth/auth.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-membership',
+  templateUrl: './membership.component.html',
+  styleUrls: ['./membership.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class MembershipComponent implements OnInit {
 
   user: User = new User;
 

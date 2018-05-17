@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../services/auth/auth.service';
-import { Credentials } from '../../../services/auth/credentials';
+import { Router } from '@angular/router';
+
+import { AuthService } from '@helpers/services/auth/auth.service';
+import { Credentials } from '@helpers/services/auth/credentials';
 
 @Component({
   selector: 'app-login',
@@ -10,9 +12,8 @@ import { Credentials } from '../../../services/auth/credentials';
 export class LoginComponent implements OnInit {
 
   credentials = new Credentials();
-  loggedin: boolean = false;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.credentials.email = 'user@example.com'
@@ -21,14 +22,7 @@ export class LoginComponent implements OnInit {
 
   onFormSubmit(): void {
     this.authService.attemptLogin(this.credentials).subscribe(
-      response => console.log(response)
+        () => this.router.navigate(['/home'])
     );
   }
-
-  onLogoutUser(): void {
-    this.authService.logout().subscribe(
-      response => console.log(response)
-    );
-  }
-
 }
