@@ -15,7 +15,6 @@ export class HomeComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.user.name = "János"
     this.getUser();
   }
 

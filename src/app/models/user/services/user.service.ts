@@ -15,6 +15,13 @@ export class UserService {
   constructor(private httpRequestService: HttpRequestService) {}
 
   /**
+   * Get the currently logged in user
+   */
+  getCurrentUser(): Observable<User> {
+    return this.httpRequestService.get<User>('auth/user')
+  }
+
+  /**
    * Get users from server
    */
   getUsers(): Observable<PaginatedUser> {
@@ -37,5 +44,5 @@ export class UserService {
     return this.httpRequestService.get<User>(this.userEndpoint+`/${id}`);
   }
 
-  
+
 }

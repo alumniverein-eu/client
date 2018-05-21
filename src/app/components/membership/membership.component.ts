@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { User } from '@models/user/user.model';
 import { Membership } from '@models/membership/membership.model';
+import { MembershipService } from '@models/membership/services/membership.service';
+
 import { AuthService } from '@helpers/services/auth/auth.service';
 
 @Component({
@@ -12,16 +14,25 @@ import { AuthService } from '@helpers/services/auth/auth.service';
 export class MembershipComponent implements OnInit {
 
   user: User = new User;
+  membership: Membership = new Membership;
 
-  constructor(private authService: AuthService) { }
+  constructor(  private authService: AuthService,
+                private membershipService: MembershipService) { }
 
   ngOnInit() {
-    this.user.name = "János"
     this.getUser();
   }
 
   getUser() {
     this.authService.getAuthUser()
-    .subscribe(result => this.user = result);
+    .subscribe(result => {
+        this.user = result;
+        this.getMembership(this.user.id);
+    });
+  }
+
+  getMembership(id: number) {
+    this.membershipService.getMembership(id)
+    .subscribe(result => this.membership = result);
   }
 }

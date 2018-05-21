@@ -1,6 +1,11 @@
 <h2>Membership</h2>
 <h1>{{user.name}}</h1>
 
+<div class="membership" *ngIf="membership">
+    <h3>{{ membership.amount }}</h3>
+    <h3>{{ membership.project }}</h3>
+</div>
+
 <ul>
 <li><a routerLink="/home">Home</a></li>
 <li><a routerLink="/membership">Membership</a></li>

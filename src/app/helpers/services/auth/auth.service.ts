@@ -24,12 +24,11 @@ export class AuthService {
     return localStorage.getItem('access_token');
   }
 
-  public check(): Observable<number> {
+  public check(): Observable<boolean> {
     // get the token
-
     const token = this.getToken();
-    return this.http.get<number>(this.baseUrl+'/auth/check', { observe: 'response' }).pipe(
-        map(response => response.status)
+    return this.http.get<boolean>(this.baseUrl+'/auth/check', { observe: 'body' }).pipe(
+        map(response => response['data'])
     );
   }
 
@@ -75,7 +74,7 @@ export class AuthService {
    * @param loginResult - result from attemptLogin
    */
   private saveTokenToStorage(loginResult){
-    localStorage.setItem('access_token', loginResult.message);
+    localStorage.setItem('access_token', loginResult.data);
   }
 
   /**
