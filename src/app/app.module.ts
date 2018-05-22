@@ -17,6 +17,7 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { MembershipComponent } from './components/membership/membership.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { LogoutComponent } from './components/auth/logout/logout.component';
+import { NavComponent } from './components/partials/nav/nav.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { LogoutComponent } from './components/auth/logout/logout.component';
     LoginComponent,
     MembershipComponent,
     SignupComponent,
-    LogoutComponent
+    LogoutComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
