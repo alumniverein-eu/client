@@ -1,0 +1,14 @@
+<h2>Membership</h2>
+<h1>{{user.name}}</h1>
+
+<div class="membership" *ngIf="user.membership">
+    <h3>{{ user.membership.amount }}</h3>
+    <h3>{{ user.membership.project }}</h3>
+</div>
+
+<ul>
+    <li><a routerLink="/home">Home</a></li>
+    <li><a routerLink="/membership">Membership</a></li>
+</ul>
+
+<img src="http://127.0.0.1:8000/{{ user.profileImageLink }}" alt="">
