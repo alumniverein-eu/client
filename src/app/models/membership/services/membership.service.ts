@@ -10,15 +10,30 @@ import { PaginatedMembership } from '@models/membership/paginated-membership.mod
   providedIn: 'root'
 })
 export class MembershipService {
-  private userEndpoint = '/membership';
+  private membershipEndpoint = '/membership';
 
   constructor(private httpRequestService: HttpRequestService) { }
+
+  /**
+   * Get memberships from server
+   */
+  getUsers(): Observable<PaginatedMembership> {
+    return this.httpRequestService.get<PaginatedMembership>(this.membershipEndpoint);
+  }
+
+  /**
+   * Get memberships from server
+   * @param url: string - string of the next / previous section of the pagination (given by Laravel)
+   */
+  getUsersByUrl(url: string): Observable<PaginatedMembership> {
+    return this.httpRequestService.get<PaginatedMembership>(url);
+  }
 
   /**
    * Get a specific membership from server
    * @param id: number - database id of a membership
    */
   getMembership(id: number): Observable<Membership> {
-    return this.httpRequestService.get<Membership>(this.userEndpoint+`/${id}`);
+    return this.httpRequestService.get<Membership>(this.membershipEndpoint+`/${id}`);
   }
 }
