@@ -8,4 +8,9 @@ export class Membership {
     created_at: string;
     updated_at: string;
     active: string;
+    street: string;
+    city: string;
+    postcode: string;
+    dob: string;
+    amount: number;
 }

@@ -1,0 +1,36 @@
+<mat-card class="main-card">
+  <mat-card-header>
+      <mat-card-subtitle>AlumniAngular</mat-card-subtitle>
+      <mat-card-title class="headline">Login</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="loginFormGroup"
+          (ngSubmit)="onFormSubmit()">
+
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Password" formControlName="password" type="password" required>
+      </mat-form-field>
+
+      <button   mat-button
+                routerLink="/signup">Sign up</button>
+      <button   mat-raised-button
+                type="submit">Login</button>
+    </form>
+
+    <div  class="form-errors">
+      <p *ngIf="loginFormGroup.get('email').hasError('required') && loginFormGroup.get('email').touched">
+        Please enter your email adress.
+      </p>
+      <p *ngIf="loginFormGroup.get('password').hasError('required') && loginFormGroup.get('password').touched">
+        Please enter your password.
+      </p>
+    </div>
+
+    <!-- <p>Form value: {{ loginFormGroup.value | json }}</p> -->
+
+  </mat-card-content>
+</mat-card>

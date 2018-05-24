@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 // import custom helpers
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 // import models & classes
 import { Credentials } from '@helpers/services/auth/credentials';
+import { AsyncValidatorService } from '@helpers/services/asyncValidator/async-validator.service';
 import { User } from '@models/user/user.model';
 
 @Injectable({
@@ -15,7 +17,7 @@ import { User } from '@models/user/user.model';
 })
 export class AuthService {
 
-  private baseUrl = 'http://127.0.0.1:8000/api';
+  private baseUrl = 'http://192.168.1.22:8000/api';
   private helper = new JwtHelperService();
 
   constructor(private http: HttpClient) {}
@@ -47,6 +49,7 @@ export class AuthService {
     // POST credentials to back-end, receive token, save it to localStorage for further requests
     return this.http.post(this.baseUrl+'/login', credentials).pipe(
         tap(result => this.saveTokenToStorage(result)),
+        map(result => result = true),
         catchError(this.handleError('attemptLogin', []))
     );
   }
@@ -79,40 +82,16 @@ export class AuthService {
 
   /**
    *
-   * @param mail: string -
-   */
-  public checkMail(mail: string): Observable<number> {
-    // POST credentials to back-end, receive token, save it to localStorage for further requests
-    return this.http.post<number>(this.baseUrl+'/sgnp/checkmail', {'email':mail}, { observe: 'response' }).pipe(
-        map(response => response.status),
-        catchError(this.handleError('checkMail', 400))
-    );
-  }
-
-  /**
-   *
-   * @param name: string -
-   */
-  public checkName(name: string): Observable<number> {
-    // POST credentials to back-end, receive token, save it to localStorage for further requests
-    return this.http.post<number>(this.baseUrl+'/sgnp/checkname', {'name':name}, { observe: 'response' }).pipe(
-        map(response => response.status),
-        catchError(this.handleError('checkName', 400))
-    );
-  }
-
-  /**
-   *
-   * @param mail: string -
+   * @param user: User -
    */
   public signupUser(user: User): Observable<number> {
       let body = new FormData();
       body.append('name', user.name);
+      body.append('firstname', user.firstname);
+      body.append('lastname', user.lastname);
       body.append('email', user.email);
       body.append('password', user.password);
 
-    //console.log(JSON.stringify(user));
-    // POST credentials to back-end, receive token, save it to localStorage for further requests
     return this.http.post<number>(this.baseUrl+'/signup', body, { observe: 'response' }).pipe(
         map(response => response.status),
         catchError(this.handleError('signupUser', 400))
@@ -130,7 +109,7 @@ export class AuthService {
       //console.error(error); // log to console
       //console.log(error);
       return of(result as T);
-    };
+    }
   }
 
 }

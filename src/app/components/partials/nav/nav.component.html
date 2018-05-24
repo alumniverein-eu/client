@@ -1,8 +1,15 @@
-<nav class="main">
-    <ul>
-        <li><a routerLink="/home">Home</a></li>
-        <li><a routerLink="/membership">Membership</a></li>
-        <li><a routerLink="/settings">Settings</a></li>
-    </ul>
-    <app-logout></app-logout>
-</nav>
+<div class="mat-app-background menu-container">
+    <button mat-button routerLink="/home">Home</button>
+    <button mat-button routerLink="/membership">Membership</button>
+
+    <mat-menu>
+      <button mat-menu-item>Settings</button>
+    </mat-menu>
+    <mat-menu #appMenu="matMenu">
+      <button mat-menu-item routerLink="/settings">Settings</button>
+      <button mat-menu-item (click)="onLogoutUser()">Logout</button>
+    </mat-menu>
+    <button mat-icon-button [matMenuTriggerFor]="appMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+</div>

@@ -1,4 +1,33 @@
+@import url(~@angular/material/prebuilt-themes/indigo-pink.css);
 /* You can add global styles to this file, and also import other style files */
 * {
-  font-family: sans-serif;
+  font-family: Roboto, Arial, sans-serif;
+}
+
+mat-card-title.headline {
+  font-size: 150% !important;
+  padding-top: .7em;
+  padding-bottom: .7em;
+}
+
+mat-list-item small {
+  padding-left: 1em;
+}
+
+img.profileImage {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  max-width: 90px;
+  max-height: 90px;
+  border-radius: 50%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+div.form-errors {
+  padding-top: 1em;
+  color: red;
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { HttpRequestService } from '@helpers/services/http/http-request.service';
 
@@ -42,6 +43,15 @@ export class UserService {
    */
   getUser(id: number): Observable<User> {
     return this.httpRequestService.get<User>(this.userEndpoint+`/${id}`);
+  }
+
+  /**
+   * Get a specific user from server
+   * @param id: number - database id of a user
+   */
+  updateUser(id: number, formData: FormData) {
+    console.log(formData);
+    return this.httpRequestService.patch(this.userEndpoint+`/${id}`, formData);
   }
 
 

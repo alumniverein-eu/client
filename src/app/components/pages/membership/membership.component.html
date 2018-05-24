@@ -1,0 +1,155 @@
+<mat-card class="main-card" *ngIf="!user.membership">
+  <mat-card-header>
+      <mat-card-subtitle>Be part of our association. Get your</mat-card-subtitle>
+      <mat-card-title class="headline">Membership</mat-card-title>
+      <mat-card-subtitle>Just follow along</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-vertical-stepper [linear]="isLinear" #stepper>
+      <mat-step [stepControl]="firstFormGroup">
+        <form [formGroup]="firstFormGroup">
+
+          <ng-template matStepLabel>About you</ng-template>
+          <mat-form-field>
+            <input matInput placeholder="First name" value="{{user.firstname}}" disabled>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Last name" value="{{user.lastname}}" disabled>
+          </mat-form-field>
+
+          <mat-form-field>
+             <input matInput placeholder="Your date of birth" [matDatepicker]="myDatepicker" formControlName="dob" required>
+             <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+             <mat-datepicker touchUi="true" #myDatepicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Street & Housenumber" formControlName="street" required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="City" formControlName="city" required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Postcode" formControlName="postcode" required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput placeholder="Country" formControlName="country" required>
+          </mat-form-field>
+
+          <p class="explain">We store this information in our membership archive as long as you're a member of our association plus one additional year. We need the information in order to be abled to reach you by mail.</p>
+
+          <div>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="secondFormGroup">
+        <form [formGroup]="secondFormGroup">
+
+          <ng-template matStepLabel>What's your background</ng-template>
+
+            <mat-form-field>
+              <mat-select placeholder="What fit's for you?" formControlName="amount" required>
+                <mat-option *ngFor="let feeType of feeTypes" [value]="feeType.value">
+                  {{ feeType.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          <p class="explain">To keep our association running we rely on financial support - but we also encourage students to take part by reduced membership fees.</p>
+
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="thirdFormGroup">
+        <form [formGroup]="thirdFormGroup">
+
+          <ng-template matStepLabel>Your projects</ng-template>
+
+          <mat-form-field>
+            <mat-select placeholder="What fit's for you?" formControlName="project" required>
+              <mat-option *ngFor="let project of projectList" [value]="project.value">
+                {{ project.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <p class="explain">Did you take part in a previous project?</p>
+
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+          </div>
+
+        </form>
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done. Thanks for taking this little tour!</p>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+          <button mat-raised-button (click)="onFormSubmit()">Subscribe</button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+  </mat-card-content>
+</mat-card>
+
+
+
+
+
+
+
+<mat-card class="main-card" *ngIf="user.membership">
+  <mat-card-header>
+      <mat-card-subtitle>Here's what we've got about your</mat-card-subtitle>
+      <mat-card-title class="headline">Membership</mat-card-title>
+      <mat-card-subtitle>Following stories are up to date</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Your membership.
+          </mat-panel-title>
+          <mat-panel-description>
+            <span *ngIf="user.membership.state == 'active'">Active</span>
+            <span *ngIf="user.membership.state == 'passive'">Passive</span>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p *ngIf="user.membership.state == 'active'">You're an active member of our association. You hold the right to vote in our yearly general assembly.</p>
+        <p *ngIf="user.membership.state == 'passive'">Passive</p>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Your payments.
+          </mat-panel-title>
+          <mat-panel-description>
+            Currently {{user.membership.amount}} EUR open.
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>Sth. about the money and payments ...</p>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+  </mat-card-content>
+</mat-card>
+
+<app-nav></app-nav>

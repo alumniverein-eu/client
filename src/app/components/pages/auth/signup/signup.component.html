@@ -1,0 +1,73 @@
+<mat-card class="main-card">
+  <mat-card-header>
+      <mat-card-subtitle>AlumniAngular</mat-card-subtitle>
+      <mat-card-title class="headline">Sign up</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form [formGroup]="signupFormGroup" novalidate (ngSubmit)="onFormSubmit()">
+
+      <mat-form-field>
+        <input matInput placeholder="Username" formControlName="name" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="First name" formControlName="firstname" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Last name" formControlName="lastname" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Email" formControlName="email" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Password" formControlName="password" type="password" required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Password" formControlName="passwordConfirm" type="password" required>
+      </mat-form-field>
+
+      <button   mat-button
+                routerLink="/login">Back to Login</button>
+      <button   mat-raised-button
+                type="submit"
+                [disabled]="signupFormGroup.invalid">Sign up</button>
+    </form>
+
+    <!-- <p>Form value: {{ signupFormGroup.value | json }}</p> -->
+
+    <!-- <p>{{ signupFormGroup.get('email').errors | json }}</p> -->
+
+    <div  class="form-errors">
+      <p *ngIf="signupFormGroup.get('name').hasError('required') && signupFormGroup.get('name').touched">
+        Name is required.
+      </p>
+      <p *ngIf="signupFormGroup.get('firstname').hasError('required') && signupFormGroup.get('firstname').touched">
+        First name is required.
+      </p>
+      <p *ngIf="signupFormGroup.get('firstname').hasError('required') && signupFormGroup.get('firstname').touched">
+        Last name is required.
+      </p>
+      <p *ngIf="signupFormGroup.get('email').hasError('required') && signupFormGroup.get('email').touched">
+        Email is required.
+      </p>
+      <p *ngIf="signupFormGroup.get('email').hasError('email') && signupFormGroup.get('email').touched">
+        Email needs to be a valid adress.
+      </p>
+      <p *ngIf="signupFormGroup.get('name').hasError('required') && signupFormGroup.get('name').touched">
+        Name is required.
+      </p>
+      <p *ngIf="signupFormGroup.get('password').hasError('required') && signupFormGroup.get('password').touched">
+        Password is required.
+      </p>
+      <p *ngIf="signupFormGroup.hasError('MatchPassword') && signupFormGroup.touched">
+        Password and confirmation do not match.
+      </p>
+    </div>
+
+
+  </mat-card-content>
+</mat-card>
