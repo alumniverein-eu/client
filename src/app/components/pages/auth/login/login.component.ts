@@ -26,6 +26,10 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  /*
+   * Submits the form to authService and calls attemptLogin-fucntion
+   * => results in jwt token or error!
+   */
   onFormSubmit(): void {
     this.credentials.email = this.loginFormGroup.get('email').value;
     this.credentials.password = this.loginFormGroup.get('password').value;

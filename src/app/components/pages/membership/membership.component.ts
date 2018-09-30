@@ -14,13 +14,18 @@ import { AuthService } from '@helpers/services/auth/auth.service';
 })
 export class MembershipComponent implements OnInit {
 
+ /*
+  * List of all currently available projects
+  */
   projectList = [
     {value: 'sbe', viewValue: 'SchulBrücke Europa'},
     {value: 'sbw', viewValue: 'SchulBrücke Weimar'},
-    {value: 'ept', viewValue: 'Europaprojekttage'},
-    {value: 'other', viewValue: 'Anderes Projekt'}
+    {value: 'ept', viewValue: 'Europaprojekttage'}
   ];
 
+  /*
+   * List of all fee types / amounts of payment
+   */
   feeTypes = [
     {value: 12, viewValue: 'Student (1 EUR/Month)'},
     {value: 24, viewValue: 'Working (2 EUR/Month)'},
@@ -30,7 +35,9 @@ export class MembershipComponent implements OnInit {
   user: User = new User;
   membership: Membership;
 
-  isLinear = true;
+  loaded: boolean = false;
+
+  isLinear = true; // Stepper linear in production!
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
@@ -58,19 +65,21 @@ export class MembershipComponent implements OnInit {
 
   }
 
+  /*
+   * gets the currently authenticated user from the AuthService!
+   */
   getUser() {
     this.authService.getAuthUser()
     .subscribe(result => {
         this.user = result;
-        this.getMembership(this.user.id);
+        setTimeout( () => { this.loaded = true }, 1500 );
     });
   }
 
-  getMembership(id: number) {
-    this.membershipService.getMembership(id)
-    .subscribe(result => this.membership = result);
-  }
-
+  /*
+   * Calls createMembership-function on membershipService with
+   * data from the subscription form!
+   */
   onFormSubmit(){
     this.membership = {
       user_id: this.user.id,
@@ -80,6 +89,27 @@ export class MembershipComponent implements OnInit {
     };
     //console.log(this.membership);
     this.membershipService.createMembership(this.membership)
-    .subscribe(result => this.getUser());
+    .subscribe(result => setTimeout( () => { this.getUser() }, 2500 ) );
+    this.loaded = false;
+  }
+
+  /*
+   * Calls endMembership on membershipService
+   * => 'end_at' property of Membership will be the current Date()!
+   */
+  onEndMembership(){
+    this.membershipService.endMembership(this.user.membership)
+    .subscribe(result => setTimeout( () => { this.getUser() }, 2500 ) );
+    this.loaded = false;
+  }
+
+  /*
+   * Calls activateMembership on membershipService
+   * => 'end_at' will be reset to NULL
+   */
+  onActivateMembership(){
+    this.membershipService.activateMembership(this.user.membership)
+    .subscribe(result => setTimeout( () => { this.getUser() }, 2500 ) );
+    this.loaded = false;
   }
 }

@@ -18,6 +18,9 @@ export class HomeComponent implements OnInit {
     this.getUser();
   }
 
+ /*
+  * Get the currently authenticated user from AuthService
+  */
   getUser() {
     this.authService.getAuthUser()
     .subscribe(result => this.user = result);

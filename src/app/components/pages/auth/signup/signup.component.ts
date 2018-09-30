@@ -32,6 +32,9 @@ export class SignupComponent implements OnInit {
       });
     }
 
+    /*
+     * Submits the form to authService and calls signupUser with form data
+     */
     onFormSubmit(){
       this.user = this.signupFormGroup.value;
       console.log(this.user);
@@ -47,6 +50,9 @@ export class SignupComponent implements OnInit {
       );
     }
 
+    /*
+     * Checks if both passwords match
+     */
     MatchPassword(AC: AbstractControl) {
         const password = AC.get('password').value; // to get value in input tag
         const confirmPassword = AC.get('passwordConfirm').value; // to get value in input tag

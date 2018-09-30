@@ -45,6 +45,7 @@ import {
 
 // import custom helpers
 // token interceptor for adding access_token to any request
+import { Globals } from '@helpers/globals';
 import { TokenInterceptor } from './helpers/services/auth/token.interceptor';
 
 // main level routing
@@ -115,11 +116,14 @@ import { NavComponent } from '@components/partials/nav/nav.component';
     MatTreeModule,
   ],
   entryComponents: [],
-  providers: [{
+  providers: [
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }],
+    },
+    Globals
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -21,11 +21,17 @@ export class SettingsComponent implements OnInit {
     this.getUser();
   }
 
+  /*
+   * get user from authService
+   */
   getUser() {
     this.authService.getAuthUser()
     .subscribe(result => this.user = result);
   }
 
+  /*
+   * open dialog with (click) on image
+   */
   onChangeImage() {
     let fileBrowser = this.fileInput.nativeElement;
     if (fileBrowser.files[0]) {

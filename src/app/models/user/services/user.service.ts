@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { HttpRequestService } from '@helpers/services/http/http-request.service';
+import { HttpRequestService } from '@helpers/services/http-request/http-request.service';
 
 import { User } from '@models/user/user.model';
 import { PaginatedUser } from '@models/user/paginated-user.model';

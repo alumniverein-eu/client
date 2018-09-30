@@ -4,6 +4,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 
+import { Globals } from '@helpers/globals';
+
 // import custom helpers
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -17,10 +19,10 @@ import { User } from '@models/user/user.model';
 })
 export class AuthService {
 
-  private baseUrl = 'http://192.168.1.22:8000/api';
   private helper = new JwtHelperService();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+              private globals: Globals) {}
 
   public getToken(): string {
     return localStorage.getItem('access_token');
@@ -29,7 +31,7 @@ export class AuthService {
   public check(): Observable<boolean> {
     // get the token
     const token = this.getToken();
-    return this.http.get<boolean>(this.baseUrl+'/auth/check', { observe: 'body' }).pipe(
+    return this.http.get<boolean>(this.globals.apiUrl + '/auth/check', { observe: 'body' }).pipe(
         map(response => response['data'])
     );
   }
@@ -38,7 +40,7 @@ export class AuthService {
    * Request the currently authenticated user by  token (which will be attached!)
    */
   public getAuthUser(): Observable<User> {
-    return this.http.get<User>(this.baseUrl+'/auth/user');
+    return this.http.get<User>(this.globals.apiUrl + '/auth/user');
   }
 
   /**
@@ -47,7 +49,7 @@ export class AuthService {
    */
   public attemptLogin(credentials: Credentials) {
     // POST credentials to back-end, receive token, save it to localStorage for further requests
-    return this.http.post(this.baseUrl+'/login', credentials).pipe(
+    return this.http.post(this.globals.apiUrl + '/login', credentials).pipe(
         tap(result => this.saveTokenToStorage(result)),
         map(result => result = true),
         catchError(this.handleError('attemptLogin', []))
@@ -60,7 +62,7 @@ export class AuthService {
   public logout() {
     let oldToken = localStorage.getItem('access_token');
     // POST empty request to logout@server, jwt will be attached and blacklisted on server
-    return this.http.post(this.baseUrl+'/auth/logout', null).pipe(
+    return this.http.post(this.globals.apiUrl + '/auth/logout', null).pipe(
         tap( result => {
           // delete credentials from localStorage
           localStorage.removeItem('access_token');
@@ -92,7 +94,7 @@ export class AuthService {
       body.append('email', user.email);
       body.append('password', user.password);
 
-    return this.http.post<number>(this.baseUrl+'/signup', body, { observe: 'response' }).pipe(
+    return this.http.post<number>(this.globals.apiUrl + '/signup', body, { observe: 'response' }).pipe(
         map(response => response.status),
         catchError(this.handleError('signupUser', 400))
     );

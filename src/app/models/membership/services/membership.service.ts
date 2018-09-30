@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { HttpRequestService } from '@helpers/services/http/http-request.service';
+import { HttpRequestService } from '@helpers/services/http-request/http-request.service';
 
 import { Membership } from '@models/membership/membership.model';
 import { PaginatedMembership } from '@models/membership/paginated-membership.model';
@@ -51,5 +51,36 @@ export class MembershipService {
     body.append('postcode', membership.postcode);
     body.append('user_id', String(membership.user_id));
     return this.httpRequestService.post<number>(this.membershipEndpoint, body);
+  }
+
+  endMembership(membership: Membership): Observable<number> {
+    let t = new Date();
+    //t.setHours(t.getHours() - t.getTimezoneOffset()/60);  //add TZ offset in hours
+    //t.toISOString();   //ISO is local time by above trick
+    let d = this.formatDate(t);
+    console.log(d);
+    let body = new FormData();
+    body.append('end_at', String(d));
+    body.append('_method', 'PATCH');
+    return this.httpRequestService.post<number>(this.membershipEndpoint + '/' + membership.id, body);
+  }
+
+  activateMembership(membership: Membership): Observable<number> {
+    let body = new FormData();
+    body.append('end_at', '');
+    body.append('_method', 'PATCH');
+    return this.httpRequestService.post<number>(this.membershipEndpoint + '/' + membership.id, body);
+  }
+
+  private formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
   }
 }
